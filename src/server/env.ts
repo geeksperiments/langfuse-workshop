@@ -3,7 +3,8 @@ import "./load-env";
 export const env = {
   port: Number(process.env.PORT ?? 8787),
   openaiApiKey: process.env.OPENAI_API_KEY ?? "",
-  openaiModel: process.env.OPENAI_MODEL ?? "gpt-5.5-2026-04-23",
+  openaiBaseUrl: process.env.OPENAI_BASE_URL || undefined,
+  openaiModel: process.env.OPENAI_MODEL ?? "agy-gemini",
   langfusePublicKey: process.env.LANGFUSE_PUBLIC_KEY ?? "",
   langfuseSecretKey: process.env.LANGFUSE_SECRET_KEY ?? "",
   langfuseBaseUrl: process.env.LANGFUSE_BASE_URL ?? "https://cloud.langfuse.com",

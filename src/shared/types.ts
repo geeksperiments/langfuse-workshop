@@ -32,6 +32,7 @@ export type ChatResponse = {
     contextId: string;
     contextLabel: string;
     model: string;
+    traceId?: string;
   };
 };
 

@@ -121,7 +121,10 @@ function parseCorrectnessScore(value: unknown): boolean {
 }
 
 async function scoreCorrectness(answer: string, idealAnswer: string) {
-  const openai = new OpenAI({ apiKey: env.openaiApiKey });
+  const openai = new OpenAI({
+    apiKey: env.openaiApiKey || "not-needed",
+    baseURL: env.openaiBaseUrl
+  });
   const response = await openai.chat.completions.create({
     model: env.openaiModel,
     response_format: { type: "json_object" },

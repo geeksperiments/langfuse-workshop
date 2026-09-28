@@ -1,4 +1,11 @@
 import "./load-env";
+import { NodeSDK } from "@opentelemetry/sdk-node";
+import { LangfuseSpanProcessor } from "@langfuse/otel";
+
+const langfuseSpanProcessor = new LangfuseSpanProcessor();
+const sdk = new NodeSDK({ spanProcessors: [langfuseSpanProcessor] });
+sdk.start();
+
 import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -30,7 +37,7 @@ app.get("/api/health", (_request, response) => {
   response.json({
     ok: true,
     provider: "openai",
-    tracingConfigured: false
+    tracingConfigured: true
   });
 });
 
@@ -63,6 +70,8 @@ const server = app.listen(env.port, "127.0.0.1", () => {
 
 async function shutdown() {
   server.close();
+  await langfuseSpanProcessor.forceFlush();
+  await sdk.shutdown();
 }
 
 process.on("SIGINT", () => void shutdown());
